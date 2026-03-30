@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>프로젝트 보고서 - QR Dropzone</title>
+    <style>
+        body { font-family: 'Malgun Gothic', 'Pretendard', sans-serif; line-height: 1.7; color: #333; max-width: 850px; margin: 40px auto; padding: 20px; background: #f0f2f5; }
+        .card { background: white; padding: 35px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #e1e4e8; }
+        h1 { color: #1e3a8a; text-align: center; font-size: 2.2em; margin-bottom: 10px; }
+        .subtitle { text-align: center; color: #64748b; margin-bottom: 40px; font-size: 1.1em; }
+        h2 { color: #2563eb; font-size: 1.3em; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        h2::before { content: "●"; color: #61afef; font-size: 0.8em; }
+        .tag-container { margin: 15px 0; }
+        .tag { display: inline-block; background: #eff6ff; color: #1d4ed8; padding: 5px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 600; margin-right: 8px; border: 1px solid #dbeafe; }
+        
+        /* 이미지 스타일 */
+        .image-container { display: flex; gap: 20px; margin: 20px 0; justify-content: center; }
+        .image-box { flex: 1; text-align: center; }
+        .image-box img { width: 100%; border-radius: 10px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .image-caption { font-size: 0.85em; color: #666; margin-top: 8px; font-weight: bold; }
+
+        .flow-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 10px; margin: 15px 0; font-family: monospace; font-size: 0.95em; color: #475569; line-height: 1.4; text-align: center; }
+        ul { padding-left: 18px; margin: 10px 0; }
+        li { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 프로젝트 보고서: QR Dropzone</h1>
+    <div class="subtitle"><strong>제작자:</strong> 유선재 (명지대학교 기계공학과 4학년)</div>
+
+    <div class="card">
+        <h2>1. 기획 배경 (Motivation)</h2>
+        <p>팀 프로젝트나 발표 현장에서 PC 내 파일을 타인의 스마트폰으로 전송해야 할 때, 카카오톡 로그인이나 클라우드 업로드 과정은 번거롭고 개인정보 유출 위험이 있습니다. <strong>QR Dropzone</strong>은 복잡한 절차 없이 <strong>드래그 앤 드롭 한 번으로 보안 전송 환경을 구축</strong>하기 위해 제작되었습니다.</p>
+    </div>
+
+    <div class="card">
+        <h2>2. 주요 기능 및 실행 화면</h2>
+        <div class="image-container">
+            <div class="image-box">
+                <img src="사진1.png" alt="드롭존 메인 화면">
+                <div class="image-caption">[그림 1] 상시 대기 중인 드롭존 UI</div>
+            </div>
+            <div class="image-box">
+                <img src="사진2.png" alt="QR 생성 화면">
+                <div class="image-caption">[그림 2] 파일 드롭 후 자동 생성된 QR</div>
+            </div>
+        </div>
+        <ul>
+            <li><strong>초경량 드롭존:</strong> 바탕화면 어디든 이동 가능한 반투명 위젯 형태로, 즉각적인 파일 수신 대기.</li>
+            <li><strong>동적 QR 시스템:</strong> 드롭된 파일의 고유 경로와 현재 PC의 로컬 IP를 조합하여 전송용 QR 코드 실시간 렌더링.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>3. 실현 방법 및 기술 스택</h2>
+        <div class="tag-container">
+            <span class="tag">Python 3.12</span>
+            <span class="tag">PyQt5 (GUI Framework)</span>
+            <span class="tag">Socket & Threading</span>
+            <span class="tag">HTTP Server Library</span>
+        </div>
+        <p><strong>기술적 특징:</strong> 멀티스레딩 기법을 도입하여 UI 스레드와 파일 호스팅 서버 스레드를 분리하였습니다. 이를 통해 대용량 파일 전송 중에도 프로그램이 멈추지 않고 실시간 상태를 유지합니다. 또한, <strong>HTTP 헤더 최적화</strong>를 통해 모바일 기기에서 스캔 시 별도의 확인 절차 없이 즉시 다운로드가 시작되도록 설계하였습니다.</p>
+        
+        <div class="flow-box">
+            [파일 드롭 확인] ➔ [로컬 소켓 서버 개방] ➔ https://ko.qr-code-generator.com/ ➔ [스마트폰 HTTP 요청 수신]
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>4. 특장점</h2>
+        <ul>
+            <li><strong>보안성(Privacy):</strong> 외부망을 거치지 않는 로컬 통신으로 데이터 유출 원천 차단.</li>
+            <li><strong>범용성(Universal):</strong> Android, iOS 등 OS에 관계없이 표준 브라우저만 있다면 파일 수신 가능.</li>
+            <li><strong>직관성(UX):</strong> '파일 선택-업로드-링크 생성'의 3단계 과정을 '드래그 앤 드롭' 1단계로 축소.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>5. 향후 계획 (Future Work)</h2>
+        <p>현재 버전은 동일 Wi-Fi 환경 내 전송을 지원하며, 향후 <strong>다중 파일 일괄 전송 기능</strong> 및 <strong>전송 만료 시간 설정</strong> 기능을 추가하여 완성도를 높일 계획입니다.</p>
+    </div>
+
+    <p style="text-align: center; color: #94a3b8; font-size: 0.9em; margin-top: 50px;">본 보고서는 2026 윈도우 유틸리티 경진대회 제출용으로 작성되었습니다.</p>
+
+</body>
+</html>
